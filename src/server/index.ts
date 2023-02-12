@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 const app = new Hono()
 
-const route = app.get(
+const route = app.post(
   '/hello',
   zValidator('json', z.object({ name: z.string() })),
   (ctx) => {

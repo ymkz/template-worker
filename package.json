@@ -3,6 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "echo 'no build'",
+    "dev": "wrangler dev --local --persist",
     "format": "prettier --write . && eslint --fix .",
     "lint": "tsc && prettier --check . && eslint .",
     "test": "echo 'no test'"
