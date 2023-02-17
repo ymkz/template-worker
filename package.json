@@ -5,9 +5,10 @@
   "scripts": {
     "build": "vite build",
     "dev": "wrangler dev --local --persist",
-    "format": "prettier --write . && eslint --fix .",
     "lint": "tsc && prettier --check . && eslint .",
-    "test": "echo 'no test'"
+    "format": "prettier --write . && eslint --fix .",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@hono/zod-validator": "0.0.5",
@@ -28,9 +29,9 @@
     "eslint": "8.34.0",
     "eslint-config-prettier": "8.6.0",
     "prettier": "2.8.4",
-    "prettier-plugin-packagejson": "2.4.3",
     "typescript": "4.9.5",
     "vite": "4.1.2",
+    "vitest": "0.28.5",
     "wrangler": "2.10.0"
   }
 }
