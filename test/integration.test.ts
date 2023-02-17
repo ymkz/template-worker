@@ -18,8 +18,8 @@ describe('Worker', () => {
     await worker.stop()
   })
 
-  test('GET /api/todo should return todos by 200', async () => {
-    const response = await worker.fetch('/api/todo')
+  test('GET /api/todo/list should return todos by 200', async () => {
+    const response = await worker.fetch('/api/todo/list')
     expect(response.status).toBe(200)
 
     const responseBody = await response.json()

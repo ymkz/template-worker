@@ -4,7 +4,7 @@ import type { AppType } from '../../server'
 export const client = hc<AppType>('')
 
 export const getTodoList = async () => {
-  const response = await client.api.todo.$get()
+  const response = await client.api.todo.list.$get()
   const json = await response.json()
   return json
 }

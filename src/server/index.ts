@@ -12,7 +12,7 @@ const app = new Hono()
 
 const todos: Todo[] = []
 
-const todoList = app.get('/api/todo', (ctx) => {
+const todoList = app.get('/api/todo/list', (ctx) => {
   return ctx.jsonT<{ todos: Todo[] }>({ todos: todos })
 })
 
