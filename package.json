@@ -3,33 +3,34 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "echo 'no build'",
+    "build": "vite build",
     "dev": "wrangler dev --local --persist",
     "format": "prettier --write . && eslint --fix .",
     "lint": "tsc && prettier --check . && eslint .",
     "test": "echo 'no test'"
   },
   "dependencies": {
-    "@hono/zod-validator": "0.0.4",
-    "hono": "3.0.0-rc.14",
+    "@hono/zod-validator": "0.0.5",
+    "@tanstack/react-query": "4.24.6",
+    "hono": "3.0.0-rc.15",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "zod": "3.20.6"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20230115.0",
+    "@cloudflare/workers-types": "4.20230215.0",
     "@types/node": "18.13.0",
     "@types/react": "18.0.28",
-    "@types/react-dom": "18.0.10",
-    "@typescript-eslint/eslint-plugin": "5.51.0",
-    "@typescript-eslint/parser": "5.51.0",
+    "@types/react-dom": "18.0.11",
+    "@typescript-eslint/eslint-plugin": "5.52.0",
+    "@typescript-eslint/parser": "5.52.0",
     "@vitejs/plugin-react-swc": "3.1.0",
     "eslint": "8.34.0",
     "eslint-config-prettier": "8.6.0",
     "prettier": "2.8.4",
     "prettier-plugin-packagejson": "2.4.3",
     "typescript": "4.9.5",
-    "vite": "4.1.1",
-    "wrangler": "2.9.1"
+    "vite": "4.1.2",
+    "wrangler": "2.10.0"
   }
 }
