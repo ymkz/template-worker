@@ -23,7 +23,7 @@ describe('Worker', () => {
     expect(response.status).toBe(200)
 
     const responseBody = await response.json()
-    expect(responseBody).toStrictEqual({ todos: [] })
+    expect(responseBody).toStrictEqual({ result: [] })
   })
 
   test('POST /api/todo/create should create todo by 200', async () => {

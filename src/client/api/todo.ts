@@ -1,4 +1,5 @@
 import { hc } from 'hono/client'
+import type { TodoCreateSchema } from '../../schema/todo'
 import type { AppType } from '../../server'
 
 export const client = hc<AppType>('')
@@ -9,7 +10,7 @@ export const getTodoList = async () => {
   return json
 }
 
-export const createTodo = async (input: { title: string }) => {
+export const createTodo = async (input: TodoCreateSchema) => {
   const response = await client.api.todo.create.$post({
     json: {
       title: input.title,
