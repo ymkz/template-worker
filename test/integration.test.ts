@@ -41,4 +41,26 @@ describe('Worker', () => {
       },
     })
   })
+
+  test('POST /api/todo/create min title should validate as error by 400', async () => {
+    const response = await worker.fetch('/api/todo/create', {
+      method: 'POST',
+      body: JSON.stringify({ title: '_' }),
+    })
+    expect(response.status).toBe(400)
+
+    const responseBody = await response.json()
+    expect(responseBody).toHaveProperty('error')
+  })
+
+  test('POST /api/todo/create max title should validate as error by 400', async () => {
+    const response = await worker.fetch('/api/todo/create', {
+      method: 'POST',
+      body: JSON.stringify({ title: 'abcdefghijklmn' }),
+    })
+    expect(response.status).toBe(400)
+
+    const responseBody = await response.json()
+    expect(responseBody).toHaveProperty('error')
+  })
 })
