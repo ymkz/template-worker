@@ -4,13 +4,15 @@ import { createTodo, getTodoList } from '../api/todo'
 
 export const TodoList = () => {
   const [title, setTitle] = useState<string>('')
+
   const queryClient = useQueryClient()
-  const { data } = useQuery({
+
+  const todoListQuery = useQuery({
     queryKey: ['TodoList'],
     queryFn: getTodoList,
   })
 
-  const mutation = useMutation({
+  const todoCreateMutation = useMutation({
     mutationFn: createTodo,
     onSuccess: async () => {
       setTitle('')
@@ -24,7 +26,7 @@ export const TodoList = () => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault()
-    mutation.mutate({ title })
+    todoCreateMutation.mutate({ title })
   }
 
   return (
@@ -35,7 +37,7 @@ export const TodoList = () => {
         <button type="submit">submit</button>
       </form>
       <ul>
-        {data?.todos.map((todo) => (
+        {todoListQuery.data?.todos.map((todo) => (
           <li>{todo.title}</li>
         ))}
       </ul>
