@@ -1,11 +1,12 @@
 import { z } from 'zod'
 
-export type Todo = {
-  id: string
-  title: string
-}
+export const todoSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+})
+export type Todo = z.infer<typeof todoSchema>
 
 export const todoCreateSchema = z.object({
   title: z.string().max(12).min(2),
 })
-export type TodoCreateSchema = z.infer<typeof todoCreateSchema>
+export type TodoCreateInput = z.infer<typeof todoCreateSchema>
