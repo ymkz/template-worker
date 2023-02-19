@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { getTodoList } from '../api/todo'
 import { TodoForm } from './todo-form'
+import { TodoItem } from './todo-item'
 
 export const TodoList = () => {
   const todoListQuery = useQuery({
@@ -14,7 +15,7 @@ export const TodoList = () => {
       <TodoForm />
       <ul>
         {todoListQuery.data?.result.map((todo) => (
-          <li key={todo.id}>{todo.title}</li>
+          <TodoItem todo={todo} />
         ))}
       </ul>
     </>
