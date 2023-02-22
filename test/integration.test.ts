@@ -18,7 +18,8 @@ describe('Worker', () => {
     await worker.stop()
   })
 
-  test('GET /api/todo/list should return todos by 200', async () => {
+  // test('GET /api/todo/list should return todos by 200', async () => {
+  test('Todoのリストがレスポンスされること', async () => {
     const response = await worker.fetch('/api/todo/list')
     expect(response.status).toBe(200)
 
@@ -26,10 +27,10 @@ describe('Worker', () => {
     expect(responseBody).toStrictEqual({ result: [] })
   })
 
-  test('POST /api/todo/create should create todo by 200', async () => {
+  test('Todoを作成できること', async () => {
     const response = await worker.fetch('/api/todo/create', {
       method: 'POST',
-      body: JSON.stringify({ title: 'TODO' }),
+      body: JSON.stringify({ title: 'test_title' }),
     })
     expect(response.status).toBe(200)
 
@@ -37,15 +38,15 @@ describe('Worker', () => {
     expect(responseBody).toStrictEqual({
       result: {
         id: expect.anything() as string,
-        title: 'TODO',
+        title: 'test_title',
       },
     })
   })
 
-  test('POST /api/todo/create min title should validate as error by 400', async () => {
+  test('Todoの作成時にタイトルの文字数の下限でエラーがレスポンスされること', async () => {
     const response = await worker.fetch('/api/todo/create', {
       method: 'POST',
-      body: JSON.stringify({ title: '_' }),
+      body: JSON.stringify({ title: 'x' }),
     })
     expect(response.status).toBe(400)
 
@@ -53,7 +54,7 @@ describe('Worker', () => {
     expect(responseBody).toHaveProperty('error')
   })
 
-  test('POST /api/todo/create max title should validate as error by 400', async () => {
+  test('Todoの作成時にタイトルの文字数の上限でエラーがレスポンスされること', async () => {
     const response = await worker.fetch('/api/todo/create', {
       method: 'POST',
       body: JSON.stringify({ title: 'abcdefghijklmn' }),
