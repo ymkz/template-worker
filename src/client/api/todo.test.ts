@@ -1,15 +1,9 @@
-import { beforeAll, describe, expect, test, vi } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import { createTodo, getTodoList } from './todo'
 
 describe('getTodoList', () => {
-  beforeAll(() => {
-    // @ts-ignore
-    global.fetch = vi.fn()
-  })
-
   test('正常な値がレスポンスされること', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () =>
         new Promise((resolve) =>
@@ -23,15 +17,13 @@ describe('getTodoList', () => {
   })
 
   test('クライアントエラーの例外がスローされること', async () => {
-    // @ts-ignore
-    fetch.mockRejectedValue(new Error())
+    global.fetch = vi.fn().mockRejectedValue(new Error())
 
     await expect(getTodoList()).rejects.toThrow('[api.todo.list] client error')
   })
 
   test('レスポンスが正常でないという例外がスローされること', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    global.fetch = vi.fn().mockResolvedValue({
       ok: false,
     })
 
@@ -41,8 +33,7 @@ describe('getTodoList', () => {
   })
 
   test('レスポンスボディが異常なJSONであるという例外がスローされること', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => new Promise((_, reject) => reject(new Error())),
     })
@@ -54,14 +45,8 @@ describe('getTodoList', () => {
 })
 
 describe('createTodo', () => {
-  beforeAll(() => {
-    // @ts-ignore
-    global.fetch = vi.fn()
-  })
-
   test('正常な値がレスポンスされること', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () =>
         new Promise((resolve) =>
@@ -75,8 +60,7 @@ describe('createTodo', () => {
   })
 
   test('クライアントエラーの例外がスローされること', async () => {
-    // @ts-ignore
-    fetch.mockRejectedValue(new Error())
+    global.fetch = vi.fn().mockRejectedValue(new Error())
 
     await expect(createTodo({ title: 'test_title' })).rejects.toThrow(
       '[api.todo.create] client error'
@@ -84,8 +68,7 @@ describe('createTodo', () => {
   })
 
   test('レスポンスが正常でないという例外がスローされること', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    global.fetch = vi.fn().mockResolvedValue({
       ok: false,
     })
 
@@ -95,8 +78,7 @@ describe('createTodo', () => {
   })
 
   test('レスポンスボディが異常なJSONであるという例外がスローされること', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue({
+    global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => new Promise((_, reject) => reject(new Error())),
     })
