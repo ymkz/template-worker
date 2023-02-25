@@ -1,48 +1,39 @@
-import {
-  act,
-  renderHook,
-  RenderHookResult,
-  waitFor,
-} from '@testing-library/react'
+import { act, renderHook, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { createQueryWrapper } from '../../../test/vitest.util'
+import * as apiTodoModule from '../api/todo'
 import { useTodoCreateMutation, useTodoListQuery } from './todo'
 
 const { queryWrapper } = createQueryWrapper()
 
-vi.mock('../api/todo', () => {
-  return {
-    getTodoList: vi.fn().mockResolvedValue({
+describe('useTodoListQuery', () => {
+  const spyGetTodoList = vi.spyOn(apiTodoModule, 'getTodoList')
+
+  beforeEach(() => {
+    spyGetTodoList.mockReset()
+  })
+
+  test('getTodoListのレスポンスがdataに入っていること', async () => {
+    // ARRANGE
+    spyGetTodoList.mockResolvedValue({
       result: [
         {
           id: 'test_id',
           title: 'test_title',
         },
       ],
-    }),
-    createTodo: vi.fn().mockResolvedValue({
-      result: {
-        id: 'test_id',
-        title: 'test_title',
-      },
-    }),
-  }
-})
-
-describe('useTodoListQuery', () => {
-  let hook: RenderHookResult<ReturnType<typeof useTodoListQuery>, void>
-
-  beforeEach(() => {
-    hook = renderHook(useTodoListQuery, {
+    })
+    const { result } = renderHook(useTodoListQuery, {
       wrapper: queryWrapper,
     })
-  })
 
-  test('getTodoListのレスポンスがdataに入っていること', async () => {
-    await waitFor(() => hook.result.current.isSuccess)
+    // ACT
+    await waitFor(() => expect(spyGetTodoList).toHaveBeenCalled())
+    await waitFor(() => result.current.isSuccess)
 
-    expect(hook.result.current.isSuccess).toBe(true)
-    expect(hook.result.current.data).toStrictEqual({
+    // ASSERT
+    expect(result.current.isSuccess).toBe(true)
+    expect(result.current.data).toStrictEqual({
       result: [
         {
           id: 'test_id',
@@ -54,25 +45,36 @@ describe('useTodoListQuery', () => {
 })
 
 describe('useTodoCreateMutation', () => {
-  let hook: RenderHookResult<ReturnType<typeof useTodoCreateMutation>, void>
+  const spyCreateTodo = vi.spyOn(apiTodoModule, 'createTodo')
 
   beforeEach(() => {
-    hook = renderHook(useTodoCreateMutation, {
-      wrapper: queryWrapper,
-    })
+    spyCreateTodo.mockReset()
   })
 
   test('createTodoのレスポンスがdataに入っていること', async () => {
+    // ARRANGE
+    spyCreateTodo.mockResolvedValue({
+      result: {
+        id: 'test_id',
+        title: 'test_title',
+      },
+    })
+    const { result } = renderHook(useTodoCreateMutation, {
+      wrapper: queryWrapper,
+    })
+
+    // ACT
     act(() => {
-      hook.result.current.mutate({
+      result.current.mutate({
         title: 'test_title',
       })
     })
+    await waitFor(() => expect(spyCreateTodo).toHaveBeenCalled())
+    await waitFor(() => result.current.isSuccess)
 
-    await waitFor(() => hook.result.current.isSuccess)
-
-    expect(hook.result.current.isSuccess).toBe(true)
-    expect(hook.result.current.data).toStrictEqual({
+    // ASSERT
+    expect(result.current.isSuccess).toBe(true)
+    expect(result.current.data).toStrictEqual({
       result: {
         id: 'test_id',
         title: 'test_title',

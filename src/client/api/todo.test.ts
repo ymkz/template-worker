@@ -3,6 +3,7 @@ import { createTodo, getTodoList } from './todo'
 
 describe('getTodoList', () => {
   test('正常な値がレスポンスされること', async () => {
+    // ARRANGE
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () =>
@@ -11,34 +12,51 @@ describe('getTodoList', () => {
         ),
     })
 
-    await expect(getTodoList()).resolves.toStrictEqual({
+    // ACT
+    const actual = getTodoList()
+
+    // ASSERT
+    await expect(actual).resolves.toStrictEqual({
       result: [{ id: 'test_id', title: 'test_title' }],
     })
   })
 
   test('クライアントエラーの例外がスローされること', async () => {
+    // ARRANGE
     global.fetch = vi.fn().mockRejectedValue(new Error())
 
-    await expect(getTodoList()).rejects.toThrow('[api.todo.list] client error')
+    // ACT
+    const actual = getTodoList()
+
+    // ASSERT
+    await expect(actual).rejects.toThrow('[api.todo.list] client error')
   })
 
   test('レスポンスが正常でないという例外がスローされること', async () => {
+    // ARRANGE
     global.fetch = vi.fn().mockResolvedValue({
       ok: false,
     })
 
-    await expect(getTodoList()).rejects.toThrow(
-      '[api.todo.list] response not ok'
-    )
+    // ACT
+    const actual = getTodoList()
+
+    // ASSERT
+    await expect(actual).rejects.toThrow('[api.todo.list] response not ok')
   })
 
   test('レスポンスボディが異常なJSONであるという例外がスローされること', async () => {
+    // ARRANGE
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => new Promise((_, reject) => reject(new Error())),
     })
 
-    await expect(getTodoList()).rejects.toThrow(
+    // ACT
+    const actual = getTodoList()
+
+    // ASSERT
+    await expect(actual).rejects.toThrow(
       '[api.todo.list] invalid json response'
     )
   })
@@ -46,6 +64,7 @@ describe('getTodoList', () => {
 
 describe('createTodo', () => {
   test('正常な値がレスポンスされること', async () => {
+    // ARRANGE
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () =>
@@ -54,36 +73,51 @@ describe('createTodo', () => {
         ),
     })
 
-    await expect(createTodo({ title: 'test_title' })).resolves.toStrictEqual({
+    // ACT
+    const actual = createTodo({ title: 'test_title' })
+
+    // ASSERT
+    await expect(actual).resolves.toStrictEqual({
       result: { id: 'test_id', title: 'test_title' },
     })
   })
 
   test('クライアントエラーの例外がスローされること', async () => {
+    // ARRANGE
     global.fetch = vi.fn().mockRejectedValue(new Error())
 
-    await expect(createTodo({ title: 'test_title' })).rejects.toThrow(
-      '[api.todo.create] client error'
-    )
+    // ACT
+    const actual = createTodo({ title: 'test_title' })
+
+    // ASSERT
+    await expect(actual).rejects.toThrow('[api.todo.create] client error')
   })
 
   test('レスポンスが正常でないという例外がスローされること', async () => {
+    // ARRANGE
     global.fetch = vi.fn().mockResolvedValue({
       ok: false,
     })
 
-    await expect(createTodo({ title: 'test_title' })).rejects.toThrow(
-      '[api.todo.create] response not ok'
-    )
+    // ACT
+    const actual = createTodo({ title: 'test_title' })
+
+    // ASSERT
+    await expect(actual).rejects.toThrow('[api.todo.create] response not ok')
   })
 
   test('レスポンスボディが異常なJSONであるという例外がスローされること', async () => {
+    // ARRANGE
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => new Promise((_, reject) => reject(new Error())),
     })
 
-    await expect(createTodo({ title: 'test_title' })).rejects.toThrow(
+    // ACT
+    const actual = createTodo({ title: 'test_title' })
+
+    // ASSERT
+    await expect(actual).rejects.toThrow(
       '[api.todo.create] invalid json response'
     )
   })
